@@ -124,4 +124,17 @@ public class ChessTest {
         Assert.assertEquals(engine.enPassant, 2);
     }
 
+    @Test
+    public void testToString() {
+        // Arrange
+        Chess engine = new Chess(Chess.START_POSITION, new NeuralNetwork());
+        String expected = Chess.START_POSITION;
+
+        // Act
+        String actual = engine.toString();
+
+        // Assert
+        Assert.assertEquals(expected, actual);
+    }
+
 }
