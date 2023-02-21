@@ -190,11 +190,7 @@ public class Chess {
         Move currentBestMove = moves.get(0);
         double currentBestEval;
 
-        if (!this.whiteToMove) {
-            currentBestEval = Chess.BLACK_KING;
-        } else {
-            currentBestEval = Chess.WHITE_KING;
-        }
+        currentBestEval = this.whiteToMove ? Chess.WHITE_KING : Chess.BLACK_KING;
 
         for (Move move : moves) {
             Chess newBoard = new Chess(this);
