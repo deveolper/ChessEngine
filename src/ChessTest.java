@@ -6,11 +6,15 @@ import java.util.List;
 
 public class ChessTest {
     @Test
-    public void testBug() {
+    public void testPseudoLegalMoves() {
+        // Arrange
         String fen = "1rbqkbnr/pppppppp/2n2P2/2P5/P3P3/1P1P4/6PP/RNBQKBNR w KQkq - 0 1";
         Chess engine = new Chess(fen, new NeuralNetwork());
 
+        // Act
         List<Move> moves = engine.pseudoLegalMoves();
+
+        // Assert
         Assert.assertEquals(moves, new ArrayList<>(List.of(
                 new Move("f6e7"),
                 new Move("f6g7"),
@@ -50,45 +54,68 @@ public class ChessTest {
     }
 
     @Test
-    public void testLegality() {
+    public void testIsLegal() {
+        // Arrange
         Chess engine = new Chess();
-        Assert.assertFalse(engine.isLegal(new Move("a2b3")));
-        Assert.assertFalse(engine.isLegal(new Move("a2e8")));
+
+        // Act
+        boolean firstResult = engine.isLegal(new Move("a2b3"));
+        boolean secondResult = engine.isLegal(new Move("a2e8"));
+        boolean thirdResult = engine.isLegal(new Move("e2e4"));
+
+        // Assert
+        Assert.assertFalse(firstResult);
+        Assert.assertFalse(secondResult);
+        Assert.assertTrue(thirdResult);
     }
 
     @Test
     public void testBestMove() {
+        // Arrange
         Chess engine = new Chess();
-        Assert.assertEquals(engine.bestMove(1).move.toString(), new Move("a2a3").toString());   // This is not the best move...
+        String expected = "a2a3";
+
+        // Act
+        String actual = engine.bestMove(1).move.toString();
+
+        // Assert
+        Assert.assertEquals(expected, actual);   // This is not the best move...
     }
 
     @Test
     public void testShowBoard() {
+        // Arrange
         Chess engine = new Chess();
-        Assert.assertEquals(engine.showBoard(),
-                ""
-                        .concat("r | n | b | q | k | b | n | r\n")
-                        .concat("--+---+---+---+---+---+---+---\n")
-                        .concat("p | p | p | p | p | p | p | p\n")
-                        .concat("--+---+---+---+---+---+---+---\n")
-                        .concat("  |   |   |   |   |   |   |  \n")
-                        .concat("--+---+---+---+---+---+---+---\n")
-                        .concat("  |   |   |   |   |   |   |  \n")
-                        .concat("--+---+---+---+---+---+---+---\n")
-                        .concat("  |   |   |   |   |   |   |  \n")
-                        .concat("--+---+---+---+---+---+---+---\n")
-                        .concat("  |   |   |   |   |   |   |  \n")
-                        .concat("--+---+---+---+---+---+---+---\n")
-                        .concat("P | P | P | P | P | P | P | P\n")
-                        .concat("--+---+---+---+---+---+---+---\n")
-                        .concat("R | N | B | Q | K | B | N | R")
-        );
+        String expected = ""
+                .concat("r | n | b | q | k | b | n | r\n")
+                .concat("--+---+---+---+---+---+---+---\n")
+                .concat("p | p | p | p | p | p | p | p\n")
+                .concat("--+---+---+---+---+---+---+---\n")
+                .concat("  |   |   |   |   |   |   |  \n")
+                .concat("--+---+---+---+---+---+---+---\n")
+                .concat("  |   |   |   |   |   |   |  \n")
+                .concat("--+---+---+---+---+---+---+---\n")
+                .concat("  |   |   |   |   |   |   |  \n")
+                .concat("--+---+---+---+---+---+---+---\n")
+                .concat("  |   |   |   |   |   |   |  \n")
+                .concat("--+---+---+---+---+---+---+---\n")
+                .concat("P | P | P | P | P | P | P | P\n")
+                .concat("--+---+---+---+---+---+---+---\n")
+                .concat("R | N | B | Q | K | B | N | R");
+
+        // Act
+        String actual = engine.showBoard();
+
+        // Assert
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testConstructFromFEN() {
+        // Act
         Chess engine = new Chess("r1bqk2r/ppp2ppp/2n5/2b1p3/PnPpP3/3B4/1P1PNPPP/1RBQKR2 b kq c3 0 9", new NeuralNetwork());
 
+        // Assert
         Assert.assertFalse(engine.whiteToMove);
         Assert.assertTrue(engine.blackCastleShort);
         Assert.assertTrue(engine.blackCastleLong);
