@@ -30,16 +30,12 @@ public class Move {
         this.dstCol = uci.charAt(2) - 'a';
         this.dstRow = 8 - Integer.parseInt(uci.substring(3, 4));
         switch (uci.substring(4)) {
-            case "Q" -> this.promotion = Chess.WHITE_QUEEN;
-            case "q" -> this.promotion = Chess.BLACK_QUEEN;
-            case "R" -> this.promotion = Chess.WHITE_ROOK;
-            case "r" -> this.promotion = Chess.BLACK_ROOK;
-            case "B" -> this.promotion = Chess.WHITE_BISHOP;
-            case "b" -> this.promotion = Chess.BLACK_BISHOP;
-            case "N" -> this.promotion = Chess.WHITE_KNIGHT;
-            case "n" -> this.promotion = Chess.BLACK_KNIGHT;
+            case "q" -> this.promotion = (this.dstRow == 0) ? Chess.WHITE_QUEEN : Chess.BLACK_QUEEN;
+            case "r" -> this.promotion = (this.dstRow == 0) ? Chess.WHITE_ROOK: Chess.BLACK_ROOK;
+            case "b" -> this.promotion = (this.dstRow == 0) ? Chess.WHITE_BISHOP : Chess.BLACK_BISHOP;
+            case "n" -> this.promotion = (this.dstRow == 0) ? Chess.WHITE_KNIGHT : Chess.BLACK_KNIGHT;
             case "" -> this.promotion = Chess.EMPTY;
-            default -> throw new RuntimeException("OOPS");
+            default -> throw new RuntimeException("Invalid promotion");
         }
     }
 
@@ -60,19 +56,17 @@ public class Move {
             case 4 -> "e";
             case 5 -> "f";
             case 6 -> "g";
-            case 7 -> "h";
-            default -> throw new RuntimeException("OOPS");
+            default -> "h";
         };
     }
 
     public String convertPromotion(int promotion) {
         return switch (Math.abs(promotion)) {
             case Chess.EMPTY -> "";
-            case Chess.BLACK_KNIGHT, Chess.WHITE_KNIGHT -> "=N";
-            case Chess.BLACK_BISHOP, Chess.WHITE_BISHOP -> "=B";
-            case Chess.BLACK_ROOK, Chess.WHITE_ROOK -> "=R";
-            case Chess.BLACK_QUEEN, Chess.WHITE_QUEEN -> "=Q";
-            default -> throw new RuntimeException("OOPS");
+            case Chess.BLACK_KNIGHT, Chess.WHITE_KNIGHT -> "n";
+            case Chess.BLACK_BISHOP, Chess.WHITE_BISHOP -> "b";
+            case Chess.BLACK_ROOK, Chess.WHITE_ROOK -> "r";
+            default -> "q";
         };
     }
 
