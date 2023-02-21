@@ -83,6 +83,19 @@ public class ChessTest {
     }
 
     @Test
+    public void testBestMoveWithNoDepth() {
+        // Arrange
+        Chess engine = new Chess();
+        String expected = "a2a3";
+
+        // Act
+        String actual = engine.bestMove(0).move.toString();
+
+        // Assert
+        Assert.assertEquals(expected, actual);  // Not the best move
+    }
+
+    @Test
     public void testShowBoard() {
         // Arrange
         Chess engine = new Chess();
@@ -136,5 +149,4 @@ public class ChessTest {
         // Assert
         Assert.assertEquals(expected, actual);
     }
-
 }
