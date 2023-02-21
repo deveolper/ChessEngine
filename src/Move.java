@@ -76,13 +76,20 @@ public class Move {
         };
     }
 
-
-
     public String toString() {
         if (this.dstRow == 9) {
             return "DEFAULT MOVE";
         }
         return String.format("%s%d%s%d%s", this.convertColumn(this.srcCol), 8-this.srcRow, this.convertColumn(this.dstCol), 8-this.dstRow, this.convertPromotion(this.promotion));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass().equals(Move.class)) {
+            return this.toString().equals(obj.toString());
+        } else {
+            return false;
+        }
     }
 
     public boolean isDefault() {
